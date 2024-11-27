@@ -1,42 +1,45 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			contacts: []
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
 			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
+				fetch('https://playground.4geeks.com/contact/agendas/MagodelVa/contacts')
+				.then(resp => resp.json())
+				.then(respJson => {
+					const store = getStore();
+					const contacts = store.contacts;
+					const newContact = respJson.contacts;
+					const updateContactList = [...contacts, ...newContact];
+					setStore({ contacts: updateContactList});
+					console.log(store)
+				})
 			},
-			changeColor: (index, color) => {
-				//get the store
+
+			addContact: (nombre, phoneNumber, emailAdress, adress) => {
 				const store = getStore();
+				const contacts = store.contacts;
+				
+				fetch ('https://playground.4geeks.com/contact/agendas/MagodelVa', {
+					method: 'POST',
+					body: JSON.stringify( {
+						name: nombre,
+      					phone: phoneNumber,
+      					email: emailAdress,
+      					address: adress,
+					}),
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+					headers: {
+						'Content-Type' : 'application/json'
+					}
+				})
+				.then (resp => resp.json())
+				.then (respJson => {
+					const newContacts = [...contacts, respJson];
+					setStore({ contacts: newContacts})
+				})
 
-				//reset the global store
-				setStore({ demo: demo });
 			}
 		}
 	};
