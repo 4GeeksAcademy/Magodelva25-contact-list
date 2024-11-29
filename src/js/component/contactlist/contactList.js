@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../../store/appContext";
 import { ContactCard } from "../contentCard/contactCard";
 import "./../contactlist/contactlist.css";
@@ -32,10 +32,13 @@ export const ContactList = () => {
 
     return (
         <div className="container-fluid">
-            <div className="list-container">
-            <div className="add-contact">             
-            <i className="fa-solid fa-plus" onClick={() => setIsModalVisible(true)}></i>
+
+            <div className="add-contact" onClick={() => setIsModalVisible(true)}>             
+              <i className="fa-solid fa-plus" ></i>
+              <p>Add new contact</p>
             </div>
+
+            <div className="list-container">
                 {
                     store.contacts.length > 0 ? (
                         store.contacts.map((item) => (
@@ -45,7 +48,6 @@ export const ContactList = () => {
                                 phone={item.phone}
                                 email={item.email}
                                 address={item.address}
-                                icon={"fa fa-trash"}
                                 key={item.id}
                                 function={() => actions.removeContact(item.id)}
 

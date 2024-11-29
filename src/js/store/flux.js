@@ -1,7 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			contacts: []
+			contacts: [],
 		},
 		actions: {
 			loadSomeData: () => {
@@ -60,9 +60,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.catch((error) => console.error("Error en la solicitud:", error));
 
+			},
 			}
 		}
 	};
-};
 
 export default getState;
