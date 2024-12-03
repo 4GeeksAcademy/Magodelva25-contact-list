@@ -61,6 +61,45 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.catch((error) => console.error("Error en la solicitud:", error));
 
 			},
+			removeContact: (id) => {
+				const store = getStore();
+				const contacts = store.contacts;
+				
+				fetch (`https://playground.4geeks.com/contact/agendas/MagodelVa/contacts/${id}`, {
+					method: 'DELETE',
+				})
+				.then(() => {
+					const newContactList = contacts.filter(item => item.id !== id)
+					setStore({ contacts: newContactList });
+				})
+				.catch((error) => console.error("Error en la solicitud:", error));
+
+			},
+			removeAll: async () => {
+				const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar todos los contactos?");
+				if (!confirmDelete) return;
+			
+				const store = getStore();
+				const contacts = store.contacts;
+			
+				try {
+					for (const contact of contacts) {
+						await fetch(`https://playground.4geeks.com/contact/agendas/MagodelVa/contacts/${contact.id}`, {
+							method: 'DELETE',
+							headers: {
+								'Content-Type': 'application/json'
+							}
+						});
+					}
+			
+					setStore({ contacts: [] });
+					console.log("Todos los contactos han sido eliminados exitosamente.");
+				} catch (error) {
+					console.error("Error al intentar eliminar todos los contactos:", error);
+				}
+			},
+
+
 			}
 		}
 	};

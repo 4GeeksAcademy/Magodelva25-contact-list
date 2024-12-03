@@ -1,0 +1,100 @@
+.toolBar {
+
+    display: flex
+    ;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 2.7rem;
+    height: -webkit-fill-available;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-right: 0.8rem;
+    position: relative;
+    justify-content: center;
+    
+}
+
+.add-contact {
+
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+    padding: 0.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 0.8rem;
+    border-radius: 10px;
+    cursor: pointer;
+    justify-self: flex-start;
+
+}
+
+.add-contact > p {
+    font-size: 14px;
+    line-height: 14px;
+    text-align: center;
+    
+
+}
+
+.fa-plus {
+
+    font-size: 2rem;
+    font-weight: 100;
+    margin-top: 5px;
+}
+
+
+
+/* MEDIA QUERIES */
+
+
+@media (max-width: 515px) {
+
+    .toolBar {
+
+        display: flex;
+        flex-direction: row;
+        gap: 0.8rem;
+        position: absolute;
+        bottom: 10px;
+        align-items: center;
+        justify-content: center;
+        height: 30px;
+        width: 150px;
+        background-color: white;
+        margin-bottom: 30px;
+        margin-right: 0;
+        box-shadow: 1px 12px 31px -9px rgba(0, 0, 0, 0.47);
+        -webkit-box-shadow: 1px 12px 31px -9px rgba(0, 0, 0, 0.47);
+
+        
+    }
+
+    .add-contact {
+
+        display: flex;
+        height: 30px;
+        margin: 0;
+    
+    }
+    
+    .add-contact > p {
+        
+        display: none;
+    
+    }
+    
+    .fa-plus {
+    
+        font-size: 2rem;
+        font-weight: 100;
+        margin: 0;
+    }
+
+
+
+}

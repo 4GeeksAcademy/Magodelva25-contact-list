@@ -1,13 +1,11 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../../store/appContext";
-import { ContactCard } from "../contentCard/contactCard";
+import { ContactCard } from "./contentCard/contactCard.js";
 import "./../contactlist/contactlist.css";
-import { Modal } from "./modalwindow.js";
-
+import { Modal } from "./modal/modalwindow.js";
+import { ToolBar } from "../toolbar/toolbar.js"; 
 
 export const ContactList = () => {
-
-
 
     const { store, actions } = useContext(Context)
     const [isModalVisible, setIsModalVisible] = useState(false)
@@ -27,16 +25,19 @@ export const ContactList = () => {
         actions.addContact(formData);
         setFormData({ name: "", phone: "", email: "", address: "" });
         setIsModalVisible(false);
-
     }
 
     return (
-        <div className="container-fluid">
 
-            <div className="add-contact" onClick={() => setIsModalVisible(true)}>             
-              <i className="fa-solid fa-plus" ></i>
-              <p>Add new contact</p>
-            </div>
+        // TOOL BAR
+        <div className="container">
+            <ToolBar 
+            modalVisible = {() => setIsModalVisible(true)}
+            resetAll = {() => actions.removeAll()}            
+            />
+
+        
+        {/* LISTA DE CONTACTOS */}
 
             <div className="list-container">
                 {
@@ -44,25 +45,31 @@ export const ContactList = () => {
                         store.contacts.map((item) => (
 
                             <ContactCard
+                                key={item.id}
                                 name={item.name}
                                 phone={item.phone}
                                 email={item.email}
                                 address={item.address}
-                                key={item.id}
                                 function={() => actions.removeContact(item.id)}
 
                             />
                         ))
                     )
                         : (
-                            <p>No hay contactos aún.</p>
+                            <div className="no-contacts">
+                              <p>No hay contactos aún.</p>
+                            </div>
                         )}
             </div>
+            
+        {/* MODAL */}
+            
             <Modal
                 isVisible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
             >
-          <div>
+          <form onSubmit={handleSubmit}>
+          <div>  
             <input
               type="text"
               name="name"
@@ -77,8 +84,10 @@ export const ContactList = () => {
               type="text"
               name="phone"
               value={formData.phone}
-              placeholder="Phone number"
+
+              placeholder="phone number (000 000 000)"
               onChange={handleChange}
+              pattern="[0-9]{9}"
               required
             />
           </div>
@@ -103,9 +112,10 @@ export const ContactList = () => {
             />
           </div>
           <div>
-            <button className="button" type="submit" onClick={handleSubmit}>Guardar Contacto</button>
+            <button className="button" type="submit">Guardar Contacto</button>
           </div>
+          </form>
       </Modal>
-    </div>
+      </div>
   );
 };

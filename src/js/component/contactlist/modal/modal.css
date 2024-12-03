@@ -35,21 +35,22 @@
 
   input{
     width: 300px;
-    margin: 15px;
     color: rgb(152, 202, 202);
     padding: 0.8rem;
     border-radius: 5px;
+    margin-bottom: 15px;
     
   }
 
   input :focus-visible {
-    border: none;
+    border: 0;
+    outline: none;
+
   }
 
   .button {
 
-    width: 300px;
-    margin: 15px;
+    width: 100%;
     font-weight: bold;
     padding: 0.8rem;
     border-radius: 5px;
