@@ -47,20 +47,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.catch((error) => console.error("Error en la solicitud:", error));
 
 			},
-			removeContact: (id) => {
-				const store = getStore();
-				const contacts = store.contacts;
-				
-				fetch (`https://playground.4geeks.com/contact/agendas/MagodelVa/contacts/${id}`, {
-					method: 'DELETE',
-				})
-				.then(() => {
-					const newContactList = contacts.filter(item => item.id !== id)
-					setStore({ contacts: newContactList });
-				})
-				.catch((error) => console.error("Error en la solicitud:", error));
 
-			},
+			editContact: (id, updatedContact) => {
+				fetch(`https://playground.4geeks.com/contact/agendas/MagodelVa/contacts/${id}`, {
+				  method: "PUT",
+				  headers: {
+					"Content-Type": "application/json",
+				  },
+				  body: JSON.stringify(updatedContact),
+				})
+				  .then((resp) => {
+					if (!resp.ok) {
+					  throw new Error("Failed to edit contact");
+					}
+					return resp.json();
+				  })
+				  .then((respJson) => {
+					const store = getStore();
+			  
+					// Actualiza el contacto en el estado local
+					const updatedContacts = store.contacts.map((contact) =>
+					  contact.id === id ? { ...contact, ...updatedContact } : contact
+					);
+			  
+					setStore({ contacts: updatedContacts });
+				  })
+				  .catch((error) => console.error("Error en la solicitud:", error));
+			  },
+			  
+
 			removeContact: (id) => {
 				const store = getStore();
 				const contacts = store.contacts;

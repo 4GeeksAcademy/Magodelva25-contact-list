@@ -18,7 +18,10 @@ export const ContactCard = (props) => {
                     <li>{props.email}</li>
                     <li>{props.address}</li>
                 </ul>
+                <div className="buttons">
+                <button className="edit-btn" key={props.key} onClick={props.editFunction}>Edit</button>
                 <button className="remove-btn" key={props.key} onClick={props.function}>Remove</button>
+                </div>
             </div>
         </div>
 
